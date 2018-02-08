@@ -1,0 +1,16 @@
+import qualified Control.Monad as C
+import qualified Data.List     as L
+
+main :: IO ()
+main = do
+    [n, c] <- map read . words <$> getLine
+    chan <- concat <$> (C.forM [1..n] $ \_ -> do
+        [ns, nt, nc] <- map read . words <$> getLine :: IO [Double]
+        return [(ns-0.5, nc, 1), (nt, nc, -1)])
+
+    print . scanl (\state, (time, channel, delta) -> 
+        zipWith (+) state [replicate (channel-1), delta, replicate (c-channel)]
+        ) (replicate 6 0) $ chan
+
+
+
