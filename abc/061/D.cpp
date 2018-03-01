@@ -10,7 +10,7 @@ struct Edge {
     int cost;
 };
 
-const long long inf = 10000000000;
+const long long inf = 1e18;
 long long n, m; 
 
 bool has_neg_loop(long long n, const vector<Edge> &edges) {
@@ -20,7 +20,7 @@ bool has_neg_loop(long long n, const vector<Edge> &edges) {
         for (auto e: edges) {
             if (dist[e.from] != inf && dist[e.to] > dist[e.from] + e.cost) {
                 dist[e.to] = dist[e.from] + e.cost;
-                if (i==n-1) f |= true;
+                if (i==n-1 && e.to == n-1) f |= true;
             }
         }
     }
