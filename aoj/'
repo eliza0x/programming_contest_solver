@@ -1,0 +1,30 @@
+import Control.Monad
+import qualified Data.List as L
+
+main :: IO ()
+main = do
+    n <- read <$> getLine :: IO Int
+    when (n /= 0) $ solve n
+
+type PolyLine = [(Int, Int)]
+
+getPolyLine :: IO PolyLine
+getPolyLine = do
+    n <- read <$> getLine :: IO Int
+    replicateM n $ do
+        [a, b] <- map read . words <$> getLine :: IO [Int]
+        (a, b)
+
+data RL = R | L
+
+lrs :: PolyLine -> String
+lrs dir ((x,y):(x',y'):(x'',y''):l) = case (x==x', x<x', y<y', y'<y'', x'<x'') of
+    (True,  _, b, _, True)  -> (if b then R else L)
+    (True,  _, b, _, False) -> (if b then L else R)
+    (False, b, _, True, _)  -> (if b then )
+    (False, b, _, False, _) ->
+
+solve :: Int -> IO ()
+solve n = do
+    polyLines <- map lrs <$> replicateM n getPolyLine :: IO [String]
+    putStrLn "+++++"
